@@ -72,7 +72,7 @@ def download_kakao_jpg(full_url, filename):
 
 
 if __name__ == '__main__':
-    if (len(sys.argv) != 2):
+    if len(sys.argv) != 2:
         if sys.argv[1] not in ["live", "pcap"]:
             print("Input Condition 'live' or 'pcap'")
             print("USAGE : %s Condition - live or pcap" % sys.argv[0])
