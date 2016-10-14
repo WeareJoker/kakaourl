@@ -16,9 +16,16 @@ kakao_re = re.compile("http://(th-)?p.talk.kakao.co.kr")
 remove_duplicate = {} # remove duplicate requests
 
 def http_header(packet):
-    
     str_pkt = str(packet)
     #a = GET_re.findall("GET th/talkp/wksCVVLDGd/EPc2iXgCMBCg0S75Be6S80/1obrnl_940x940_s.jpg HTTP/1.1\r\n")
+    if packet.haslayer("Dot11Beacon"):
+        return
+    elif packet.haslayer("TCP") == 0:
+        return
+
+    str_pkt = str(packet)
+    print(repr(packet))
+#a = GET_re.findall("GET th/talkp/wksCVVLDGd/EPc2iXgCMBCg0S75Be6S80/1obrnl_940x940_s.jpg HTTP/1.1\r\n")
     ##b = HOST_re.findall("Host: http://p.talk.kakao.co.kr\x0d\x0a")
     #print a.group(0)
     #print b.group(0)
