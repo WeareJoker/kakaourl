@@ -20,8 +20,8 @@ def http_header(packet):
     elif packet.haslayer("TCP") == 0:
         return
 
-    str_pkt = packet.decode('utf-8')
-   #packet.display()
+    str_pkt = str(packet)
+    print(repr(packet))
 #a = GET_re.findall("GET th/talkp/wksCVVLDGd/EPc2iXgCMBCg0S75Be6S80/1obrnl_940x940_s.jpg HTTP/1.1\r\n")
     ##b = HOST_re.findall("Host: http://p.talk.kakao.co.kr\x0d\x0a")
     #print a.group(0)
