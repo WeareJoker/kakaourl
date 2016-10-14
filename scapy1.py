@@ -43,7 +43,7 @@ def http_header(packet):
 
             #print full_url
 
-            print full_url
+            print(full_url)
 
             download_kakao_jpg(full_url, filename)
             
@@ -59,51 +59,38 @@ def download_kakao_jpg(full_url, filename):
         full_url = "http://" + full_url
 
     try:	
-    	requester = requests.get(full_url)
+        requester = requests.get(full_url)
         with open("./" + filename, "wb") as f:
-           f.write(requester.content)
+            f.write(requester.content)
         with open("daankao.txt", "a+t") as f:
-           f.write(full_url + " " + filename + "\n")    
-        print "Success"
+            f.write(full_url + " " + filename + "\n")    
+        print("Success")
     except:
-        print "internet not connected"
+        print("internet not connected")
     
              
 
 
 if __name__ == '__main__':
-   if (len(sys.argv) != 2):
-      if sys.argv[1] not in ["live", "pcap"]:
-         print "Input Condition 'live' or 'pcap'"
-         print "USAGE : %s Condition - live or pcap" % sys.argv[0]
-         sys.exit()
+    if (len(sys.argv) != 2):
+        if sys.argv[1] not in ["live", "pcap"]:
+            print("Input Condition 'live' or 'pcap'")
+            print("USAGE : %s Condition - live or pcap" % sys.argv[0])
+            sys.exit()
 
-   else :
-      if(sys.argv[1]=="live"):
-         sniff(iface= "tap0", prn=http_header, filter="tcp port 80")
-      elif(sys.argv[1]=="pcap"):
-         filename = raw_input("Input File Name : ")
-         now_path = os.path.dirname(os.path.abspath(__file__))
-         pcap_path = os.path.join(now_path, filename)
-	 pcap = rdpcap(pcap_path)
-	 for packet in pcap:
-	    http_header(packet)	
+    with open("daankao.txt", "wt") as f:
+        f.write("full_url filename\n")
+    
+    if sys.argv[1]=="live":
+        sniff(iface= "tap0", prn=http_header, filter="tcp port 80")
+    elif sys.argv[1]=="pcap":
+        filename = input("Input File Name : ")
+        now_path = os.path.dirname(os.path.abspath(__file__))
+        pcap_path = os.path.join(now_path, filename)
+        pcap = rdpcap(pcap_path)
+        for packet in pcap:
+            http_header(packet)	
 
-         #sniff(iface="tap0", prn=http_header, filter="tcp port 80")
-
-
-if len(sys.argv) != 3:
-    print("USAGE : %s -p" % sys.argv[0]) 
-
-else :
-	pcap_file = "argv[1]"
-	pcap = rdpcap(pcap_file)
-	data = ""
-	for packet in pcap:
-		http_header(packet)	
-
-with open("daankao.txt", "wt") as f:
-	f.write("This is FULL_URL FILE_NAME\n")
-sniff(iface= "wlan0", prn=http_header, filter="tcp port 80")
+#sniff(iface="tap0", prn=http_header, filter="tcp port 80")
 
 
